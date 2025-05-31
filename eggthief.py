@@ -198,27 +198,21 @@ def spawn_level(level, all_sprites, guards, jewels, player):
         else:
             new_sprite = random.choice(enemy_sprites_all)
         enemy_sprites_pool.append(new_sprite)
-
     guards.empty()
     jewels.empty()
     all_sprites.empty()
     all_sprites.add(player)
-
-    # Spawn jewels
     for _ in range(10):
         x = random.randint(40, LOGICAL_WIDTH - 40)
         y = random.randint(40, LOGICAL_HEIGHT - 80)
         jewel = Jewel(x, y, level)
         all_sprites.add(jewel)
         jewels.add(jewel)
-
-    # Spawn guards away from player
     num_guards = min(level, len(enemy_sprites_pool))
     sprites_for_guards = random.sample(enemy_sprites_pool, k=num_guards)
-    min_distance = 100  # Minimum distance from player in pixels
-
+    min_distance = 100
     for sprite in sprites_for_guards:
-        for _ in range(100):  # Try up to 100 times to find a valid spawn point
+        for _ in range(100):
             x = random.randint(0, LOGICAL_WIDTH - GUARD_SIZE)
             y = random.randint(0, LOGICAL_HEIGHT - GUARD_SIZE)
             dist_x = abs(x + GUARD_SIZE // 2 - player.rect.centerx)
